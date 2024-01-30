@@ -13,7 +13,8 @@ public class Agenda {
         if (!contatos.containsKey(contato.getId())) {
             for (Telefone telefone : contato.getTelefones()) {
                 if (!adicionarTelefone(telefone)) {
-                    return; // Telefone já cadastrado
+                    System.out.println("Telefone já cadastrado");
+                    return;
                 }
             }
 
@@ -26,10 +27,10 @@ public class Agenda {
     }
 
     public boolean adicionarTelefone(Telefone telefone) {
-        Set<String> telefonesTemp = new HashSet<>(); // Cria um novo conjunto para armazenar os telefones adicionados
+        Set<String> telefonesTemp = new HashSet<>();
         String chaveTelefone = telefone.getDdd() + telefone.getNumero();
         telefonesTemp.add(chaveTelefone);
-        telefonesComDdd.addAll(telefonesTemp); // Adiciona os novos telefones ao conjunto principal
+        telefonesComDdd.addAll(telefonesTemp);
         return true;
     }
 
@@ -39,6 +40,8 @@ public class Agenda {
             for (Telefone telefone : contato.getTelefones()) {
                 telefonesRegistrados.remove(telefone.getDdd() + telefone.getNumero());
             }
+
+            salvarContatos();
         }
     }
 
@@ -46,38 +49,22 @@ public class Agenda {
         if (contatos.containsKey(id)) {
             Contato contatoOriginal = contatos.get(id);
 
-            // Editar nome
             if (!contatoAtualizado.getNome().isEmpty()) {
                 contatoOriginal.setNome(contatoAtualizado.getNome());
             }
 
-            // Editar telefones
-            for (Telefone telefoneAtualizado : contatoAtualizado.getTelefones()) {
-                String chaveTelefone = telefoneAtualizado.getDdd() + telefoneAtualizado.getNumero();
-
-                if (contatoOriginal.getTelefones().contains(telefoneAtualizado)) {
-                    // Editar DDD e número existentes
-                    Telefone telefoneOriginal = contatoOriginal.getTelefones().get(
-                            contatoOriginal.getTelefones().indexOf(telefoneAtualizado));
-                    telefoneOriginal.setDdd(telefoneAtualizado.getDdd());
-                    telefoneOriginal.setNumero(telefoneAtualizado.getNumero());
-                } else if (!telefonesRegistrados.contains(chaveTelefone)) {
-                    // Adicionar novo telefone
-                    contatoOriginal.getTelefones().add(telefoneAtualizado);
-                    telefonesRegistrados.add(chaveTelefone);
+            List<Telefone> telefonesAtualizados = new ArrayList<>(contatoAtualizado.getTelefones());
+            for (Telefone telefoneAtualizado : telefonesAtualizados) {
+                for (Telefone telefoneOriginal : contatoOriginal.getTelefones()) {
+                    if (telefoneAtualizado.equals(telefoneOriginal)) {
+                        telefoneOriginal.setDdd(telefoneAtualizado.getDdd());
+                        telefoneOriginal.setNumero(telefoneAtualizado.getNumero());
+                        break;
+                    }
                 }
             }
 
-            // Remover telefones não presentes no contato atualizado
-            for (Telefone telefoneOriginal : contatoOriginal.getTelefones()) {
-                if (!contatoAtualizado.getTelefones().contains(telefoneOriginal)) {
-                    contatoOriginal.getTelefones().remove(telefoneOriginal);
-                    telefonesRegistrados.remove(telefoneOriginal.getDdd() + telefoneOriginal.getNumero());
-                }
-            }
-
-            // Atualizar contato
-            contatos.put(id, contatoOriginal);
+            salvarContatos();
         }
     }
 
@@ -86,10 +73,10 @@ public class Agenda {
     }
 
     public void salvarContatos() {
+        System.out.println("Salvando contatos...");
         File arquivo = new File("contatos.txt");
         try (PrintWriter out = new PrintWriter(new FileWriter(arquivo))) {
 
-            // Escreve os dados dos contatos no arquivo
             for (Contato contato : contatos.values()) {
                 out.println(contato.getId() + " | " + contato.getNomeCompleto() + " | " + contato.getTelefones());
                 for (Telefone telefone : contato.getTelefones()) {

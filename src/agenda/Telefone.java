@@ -1,4 +1,5 @@
 package agenda;
+
 public class Telefone {
     public Long id;
     public String ddd;

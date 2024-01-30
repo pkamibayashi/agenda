@@ -1,8 +1,3 @@
-1 | Paulo | [agenda.Telefone@708f5957]
-19 | 986075934
-
-2 | Joao | []
-
-5 | Carlos | [agenda.Telefone@6973b51b]
-19 | 999444333
+1 | Pedro | [agenda.Telefone@76508ed1]
+19 | 9283981
 

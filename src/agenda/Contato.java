@@ -14,7 +14,6 @@ public class Contato {
         telefones = new ArrayList<>();
     }
 
-
     public Long getId() {
         return id;
     }

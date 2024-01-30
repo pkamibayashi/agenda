@@ -15,10 +15,9 @@ public class Main {
             System.out.println(">>>> Contatos <<<<");
             for (Contato contato : agenda.getContatos()) {
 
-
-                // Loop for each para iterar sobre os telefones do contato
                 for (Telefone telefone : contato.getTelefones()) {
-                    System.out.println(contato.getId() + " | " + contato.getNome() + " | " + "Telefone: " + telefone.getNumero());
+                    System.out.println(
+                            contato.getId() + " | " + contato.getNome() + " | " + "Telefone: " + telefone.getNumero());
                 }
             }
 
@@ -30,7 +29,7 @@ public class Main {
 
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
 
             if (opcao == 4) {
                 break;
@@ -41,10 +40,9 @@ public class Main {
                     // Adicionar contato
                     System.out.println("Digite o ID do contato:");
                     Long id = scanner.nextLong();
-                    scanner.nextLine(); // consume newline
+                    scanner.nextLine();
                     System.out.println("Digite o nome do contato:");
                     String nome = scanner.nextLine();
-                    // Aqui você pode adicionar mais campos conforme necessário
                     Contato novoContato = new Contato();
                     novoContato.setId(id);
                     novoContato.setNome(nome);
@@ -53,7 +51,7 @@ public class Main {
                     String ddd = scanner.nextLine();
                     System.out.println("Digite o número do telefone:");
                     Long numero = scanner.nextLong();
-                    scanner.nextLine(); // consume newline
+                    scanner.nextLine();
 
                     Telefone telefone = new Telefone();
                     telefone.setDdd(ddd);
@@ -85,20 +83,32 @@ public class Main {
                         novoNome = scanner.nextLine();
                     }
 
-                    System.out.println("Digite o novo sobrenome do contato (ou pressione Enter para manter o sobrenome atual):");
-                    String novoSobreNome = "";
-                    while (novoSobreNome.isEmpty()) {
-                        novoSobreNome = scanner.nextLine();
-                    }
-
-                    // Opcional: Editar outros campos do contato (telefones, email, etc.)
-
                     Contato contatoAtualizado = new Contato();
                     contatoAtualizado.setId(idEditar);
                     contatoAtualizado.setNome(novoNome);
-                    contatoAtualizado.setSobreNome(novoSobreNome);
 
-                    // Adicione aqui as alterações nos outros campos
+                    // ################## TBD ##################
+                    // System.out.println(
+                    // "Deseja editar o DDD ou o número do telefone? Pressione 'D' para DDD ou 'N'
+                    // para Numero:");
+                    // String respostaEdicaoTelefone = scanner.nextLine();
+
+                    // if (respostaEdicaoTelefone.equalsIgnoreCase("D")) {
+                    // System.out.println("Digite o novo DDD do telefone:");
+                    // String novoDdd = scanner.nextLine();
+
+                    // for (Telefone telefoninho : contatoAtualizado.getTelefones()) {
+                    // telefoninho.setDdd(novoDdd);
+                    // }
+                    // } else if (respostaEdicaoTelefone.equalsIgnoreCase("N")) {
+                    // System.out.println("Digite o novo número do telefone:");
+                    // Long novoNumero = scanner.nextLong();
+                    // scanner.nextLine();
+
+                    // for (Telefone telefoninho : contatoAtualizado.getTelefones()) {
+                    // telefoninho.setNumero(novoNumero);
+                    // }
+                    // }
 
                     agenda.editarContato(idEditar, contatoAtualizado);
                     break;
